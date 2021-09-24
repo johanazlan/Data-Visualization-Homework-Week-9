@@ -1,0 +1,36 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Active COVID-19 Cases",
+    "width": 800,
+    "height": 600,
+    "projection": {"type": "equirectangular"},
+    "data": {
+        "url": "js/malaysia_map.topojson", 
+        "format": {"type": "topojson", "feature": "malaysia_map"}
+    }, 
+    "transform": [
+        {
+            "lookup": "properties.NAME",
+            "from": {
+                "data": {
+                    "url": "https://github.com/johanazlan/covid19-public/blob/main/epidemic/cases_state.csv"
+                }, 
+                "key": "state",
+                "fields": ["cases_new"]
+            }
+        },
+        {"calculate": "datum.cases_new + 0.1", "as": "New Cases"}
+    ],
+    "mark": {"type": "geoshape"}, 
+    "encoding": {
+        "color": {
+            "field": "New Cases",
+            "type": "quantitative",
+            "scale": {"type": "log"}
+        },  
+        "tooltip": [
+            {"field": "properties.NAME", "type": "nominal", "title": "State"},
+            {"field": "cases_new", "type": "quantitative"}
+        ]
+    }
+}
