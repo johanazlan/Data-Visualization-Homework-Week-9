@@ -1,36 +1,36 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "Active COVID-19 Cases",
-    "width": 800,
+    "title": "Total COVID-19 Cases",
+    "width": 850,
     "height": 600,
     "projection": {"type": "equirectangular"},
     "data": {
-        "url": "js/malaysia_map.topojson", 
+        "url": "https://raw.githubusercontent.com/johanazlan/Data-Visualization-Homework-Week-9/main/js/malaysia_map.json", 
         "format": {"type": "topojson", "feature": "malaysia_map"}
     }, 
     "transform": [
         {
-            "lookup": "properties.NAME",
+            "lookup": "properties.locname",
             "from": {
                 "data": {
-                    "url": "https://github.com/johanazlan/covid19-public/blob/main/epidemic/cases_state.csv"
+                    "url": "https://raw.githubusercontent.com/johanazlan/Data-Visualization-Homework-Week-9/main/data/cases_state_small.csv"
                 }, 
                 "key": "state",
-                "fields": ["cases_new"]
+                "fields": ["cases_new", "date"]
             }
         },
-        {"calculate": "datum.cases_new + 0.1", "as": "New Cases"}
+        {"calculate": "datum.cases_new", "as": "New Cases"}
+        
     ],
     "mark": {"type": "geoshape"}, 
     "encoding": {
         "color": {
             "field": "New Cases",
-            "type": "quantitative",
-            "scale": {"type": "log"}
+            "type": "quantitative"
         },  
         "tooltip": [
-            {"field": "properties.NAME", "type": "nominal", "title": "State"},
-            {"field": "cases_new", "type": "quantitative"}
+            {"field": "properties.locname", "type": "nominal", "title": "State"},
+            {"field": "New Cases", "type": "quantitative"}
         ]
     }
 }
