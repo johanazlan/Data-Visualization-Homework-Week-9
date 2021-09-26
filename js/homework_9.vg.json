@@ -1,6 +1,6 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "Total COVID-19 Cases",
+    "title": "New COVID-19 Cases on 1st September 2021",
     "width": 850,
     "height": 600,
     "projection": {"type": "equirectangular"},
@@ -16,7 +16,7 @@
                     "url": "https://raw.githubusercontent.com/johanazlan/Data-Visualization-Homework-Week-9/main/data/cases_state_small.csv"
                 }, 
                 "key": "state",
-                "fields": ["cases_new", "date"]
+                "fields": ["cases_new"]
             }
         },
         {"calculate": "datum.cases_new", "as": "New Cases"}
@@ -26,7 +26,11 @@
     "encoding": {
         "color": {
             "field": "New Cases",
-            "type": "quantitative"
+            "type": "quantitative",
+            "scale": {
+                "type": "threshold",
+                "domain": [500, 1000, 1500, 2000]
+            }
         },  
         "tooltip": [
             {"field": "properties.locname", "type": "nominal", "title": "State"},
